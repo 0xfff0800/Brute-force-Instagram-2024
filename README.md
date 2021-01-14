@@ -7,7 +7,7 @@
 [![Stage](https://img.shields.io/badge/Release-Stable-brightgreen.svg)]()
 [![Build](https://img.shields.io/badge/Supported_OS-Linux-orange.svg)]()
 
-The brute force of Instagram is working in a new format 2020, just needs to add a proxy, and I didn't do it because of the limited time
+The brute force of Instagram is working in a new format 2021, just needs to add a proxy, and I didn't do it because of the limited time
 Open source, you can modify it 
 
 ## Legal disclaimer:
