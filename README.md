@@ -1,4 +1,4 @@
-# Brute-force-Instagram-2020
+# Brute-force-Instagram-2021
 
 
 
@@ -18,13 +18,13 @@ Usage of insTof for attacking targets without prior mutual consent is illegal. I
 
 ### A look at the tool
 
-![tweet](https://www8.0zz0.com/2020/07/16/21/862111333.png)
+![tweet](https://www.up-00.com/i/00201/wphv5gf78n85.jpg)
 
 
 ## Getting Started
-1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2020.git```
-2. ```cd Brute-force-Instagram-2020```
-3. ```python3 insTof4.py```
+1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2021.git```
+2. ```cd Brute-force-Instagram-2021```
+3. ```python3 insTof5.py```
 
 
 ## A Kali Linux operating system. We recommend :
