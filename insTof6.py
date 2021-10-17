@@ -45,7 +45,7 @@ class InstaBrute(object):
     def __init__(self):
 
         try:
-            user = input('jaxx1915 ')
+            user = input('jaxx1915 : ')
             Combo = input('passList : ')
             self.CurrentProxy = ''
             self.UsedProxys = []
