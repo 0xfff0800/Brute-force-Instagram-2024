@@ -44,7 +44,7 @@ depend on vpn. Please use it before running the tool or providing a proxy file  
 class InstaBrute(object):
     def __init__(self):
 
-# wordlist.txt 
+# only:pass.txt 
 
         try:
             user = input('username : ')
@@ -74,7 +74,7 @@ class InstaBrute(object):
         for j in thread:
             j.join()
 
-# only name:proxy.txt
+# only:proxy.txt
 
     def randomProxy(self):
         plist = open('proxy.txt').read().splitlines()
