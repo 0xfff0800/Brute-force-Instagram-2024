@@ -27,7 +27,7 @@ Usage of insTof for attacking targets without prior mutual consent is illegal. I
 1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2021.git```
 2. ```pip3 install colorama```
 3. ```cd Brute-force-Instagram-2021```
-4. ```python3 insTof6.py```
+4. ```python3 insTof7.py```
 
 
 ## A Kali Linux operating system. We recommend :
