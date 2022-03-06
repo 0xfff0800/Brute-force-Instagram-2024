@@ -103,7 +103,7 @@ class InstaBrute(object):
             except Exception as e:
                 print('[*] Can\'t reach proxy "%s"' % proxy)
                 proxy = random.choice(plist)
-                os.system('cls')
+                os.system('clear')
             print('')
 			
 
