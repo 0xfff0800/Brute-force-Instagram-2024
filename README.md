@@ -7,7 +7,6 @@
 [![Stage](https://img.shields.io/badge/Release-Stable-brightgreen.svg)]()
 [![Build](https://img.shields.io/badge/Supported_OS-Linux-orange.svg)]()
 
-Instagram brute force working in new format 2022, proxy added ^-* , open source, you can modify it
 
 ## Legal disclaimer:
 
@@ -27,7 +26,7 @@ Usage of insTof for attacking targets without prior mutual consent is illegal. I
 1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2022.git```
 2. ```pip3 install colorama```
 3. ```cd Brute-force-Instagram-2022```
-4. ```python3 insTof7.py```
+4. ```python3 insTof.py```
 
 
 ## A Kali Linux operating system. We recommend :
