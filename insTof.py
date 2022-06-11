@@ -43,7 +43,7 @@ print ('''
 
 
 print('')
-user = input (end_banner_color+"Usernames => ")
+user = input (end_banner_color+"_ali_murad8 => ")
 flo = input ("List Of Passwords => ")
 linux = 'clear'
 windows = 'cls'
