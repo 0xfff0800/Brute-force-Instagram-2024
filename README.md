@@ -48,5 +48,5 @@ Usage of insTof for attacking targets without prior mutual consent is illegal. I
  <img src="https://www.up-00.com/i/00176/4gu5yi4fwmgt.jpg" width="30%"></img>
  
  ## Download and Clone
- > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2020/archive/master.zip) (Brute-force-Instagram-2022.zip)
+ > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2023/archive/master.zip) (Brute-force-Instagram-2023.zip)
  
