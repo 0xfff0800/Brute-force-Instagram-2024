@@ -1,0 +1,12 @@
+  try:
+    L.login(USER, PASSWORD)
+    return 1
+  except Exception as e:
+    if "Checkpoint" in str(e):
+      return 1
+    elif "incorrect" in str(e):
+      return 0
+    elif "blocked" in str(e):
+      return 0
+    else:
+      return 0
