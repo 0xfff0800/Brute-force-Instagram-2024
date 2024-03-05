@@ -1,4 +1,4 @@
-# Brute-force-Instagram-2023
+# Brute-force-Instagram-2024
 
 
 
@@ -12,13 +12,11 @@
 
 Usage of insTof for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program 
 
-![tweet](https://steamuserimages-a.akamaihd.net/ugc/943951547336911675/8FC1DADCBAF77B83508E1E203373F3EEFF9D7DF9/)
+It is only necessary to use this tool in the context of a project, such as a certified penetration test, or for educational purposes in a specially prepared environment and cannot harm anyone. If you are an ethical hacker or information security professional, you should ensure that you have all the necessary permissions before starting any type of penetration testing
 
-### A look at the tool
  
- 
- <img src="https://k.top4top.io/p_1994btxsh1.jpeg" width="30%"></img>
- <img src="https://l.top4top.io/p_1994kwpq92.jpeg" width="30%"></img>
+ <img src="https://media.tenor.com/bLXVJaboy9gAAAAM/hacking-hacker.gif" width="50%"></img> <img src="https://d.top4top.io/p_29867h9wz1.png" width="50%"></img>
+
 
 
 
@@ -36,17 +34,13 @@ Usage of insTof for attacking targets without prior mutual consent is illegal. I
 - BackTrack 
 - Backbox  
 - Android - Trimix
-- Iphone - python ai 
+- Iphone - ish 
 
 ## BUG ? 
 - Please Submit new issue 
 - Contact me
 - Hey ? do you want ask about all my tools ? you can join me in [Telegram](https://T.me/flaah999)
 
-## Donations 
-
- <img src="https://www.up-00.com/i/00176/4gu5yi4fwmgt.jpg" width="30%"></img>
- 
  ## Download and Clone
- > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2024/archive/master.zip) (Brute-force-Instagram-2023.zip)
+ > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2024/archive/master.zip) (Brute-force-Instagram-2024.zip)
  
