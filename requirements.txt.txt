@@ -1,0 +1,4 @@
+requests
+aiohttp
+aiohttp_socks
+urllib3
