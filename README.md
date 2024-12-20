@@ -1,4 +1,4 @@
-# Brute-force-Instagram-2024
+# Brute-force-Instagram-2025
 
 [![Version](https://img.shields.io/badge/Brutesploit-1.1.0-brightgreen.svg?maxAge=259200)]()
 [![Version](https://img.shields.io/badge/Codename-Pretty-red.svg?maxAge=259200)]()
@@ -19,9 +19,9 @@ This tool is meant to be used in the context of ethical hacking projects, such a
 
 ## Getting Started
 
-1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2024.git```
+1. ```git clone https://github.com/0xfff0800/Brute-force-Instagram-2025.git```
 2. ```pip3 install -r requirements.txt```
-3. ```cd Brute-force-Instagram-2024```
+3. ```cd Brute-force-Instagram-2025```
 4. ```python3 insTof.py```
 
 ## Proxy Support
@@ -76,5 +76,5 @@ This tool is meant to be used in the context of ethical hacking projects, such a
 - Hey ? do you want ask about all my tools ? you can join me in [Telegram](https://T.me/flaah999)
 
  ## Download and Clone
- > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2024/archive/master.zip) (Brute-force-Instagram-2024.zip)
+ > Download: Click [Here](https://github.com/0xfff0800/Brute-force-Instagram-2025/archive/master.zip) (Brute-force-Instagram-2025.zip)
  
